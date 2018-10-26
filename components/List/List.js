@@ -29,11 +29,11 @@ export class List extends React.Component {
     <RkCard rkType='backImg'>
       <Image rkCardImg source={{uri: item.photo.url}}  />
       <View rkCardImgOverlay rkCardContent style={styles.overlay}>
-        <RkText rkType='header2 inverseColor'>{item.title}</RkText>
+        <RkText rkType='header2 inverseColor'>{item.title.substring(0, 100)}</RkText>
         <RkText rkType='secondary2 inverseColor'>{`${item.startDayName} ${item.timespanDisplayString}`}</RkText>
         <View rkCardFooter style={styles.footer}>
-            <RkText rkType='secondary3 inverseColor'>{`${item.location.name}`}</RkText>
-            <RkText rkType='secondary3 inverseColor'>{`${item.mainCategory}`}</RkText>
+            <RkText style={styles.location} rkType='secondary3 inverseColor'>{`${item.location.name}`}</RkText>
+            <RkText style={styles.type} rkType='secondary3 inverseColor'>{`${item.mainCategory}`}</RkText>
             
         </View>
       </View>
@@ -53,14 +53,19 @@ export class List extends React.Component {
 
 const styles = RkStyleSheet.create(theme => ({
   root: {
-    backgroundColor: theme.colors.screen.base,
+    backgroundColor: '#000',
   },
   overlay: {
     justifyContent: 'flex-end',
   },
   footer: {
-    width: 240,
   },
+  location: {
+    flex: 3
+  },
+  type: {
+    flex: 1
+  }
 }))
 
 RkTheme.setType('RkText', 'header2', {

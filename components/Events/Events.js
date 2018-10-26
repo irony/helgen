@@ -7,7 +7,9 @@ import {
   RkText, RkCard
 } from 'react-native-ui-kitten'
 
-const url = `https://www.dn.se/ajax/calendar?fromDate=${moment().startOf('week').toISOString()}&toDate=${moment().endOf('week').toISOString()}&q=&regions=&size=10000`
+moment.locale('sv-se')
+
+const url = `https://www.dn.se/ajax/calendar?fromDate=${moment().startOf('week').add(5, 'days').toISOString()}&toDate=${moment().endOf('week').add(1, 'day').toISOString()}&q=&regions=&size=10000`
 
 class EventsContainer extends Component {
   constructor () {
@@ -18,18 +20,29 @@ class EventsContainer extends Component {
   }
   static navigationOptions = {
     title: 'Händer i helgen'.toUpperCase(),
+    headerTintColor: 'white',
+    screenBackgroundColor: '#000',
+    headerStyle: {
+      backgroundColor: '#000',
+      borderBottomColor: 'black',
+      borderBottomWidth: 0
+    }
+
   }
 
   componentDidMount () {
     fetch(url)
       .then(res => res.json())
+      .then(({days}) => days.reduce((items, day) => [...items, ...day.items], []))
+      .then(events => events.filter(item => item.photo && item.photo.url))
+      .then(events => events.filter(item => moment(item.startTime).isAfter(moment().startOf('day'))))
       .then(events => {
-        this.setState({events: events.days[0].items.filter(item => item.photo)})
+        this.setState({events})
       })
       .catch(err => [{err}])
   }
   render () {
-    return <List events={this.state.events} navigation={this.props.navigation}/>
+    return <List  events={this.state.events} navigation={this.props.navigation}/>
     //return <Text>{JSON.stringify(this.state.events, null, 2)}</Text>
   }
 }
