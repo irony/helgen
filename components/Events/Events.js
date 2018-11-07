@@ -33,8 +33,11 @@ class EventsContainer extends Component {
   componentDidMount () {
     fetch(url)
       .then(res => res.json())
+      // merge all days to one list
       .then(({days}) => days.reduce((items, day) => [...items, ...day.items], []))
+      // only keep events with photos
       .then(events => events.filter(item => item.photo && item.photo.url))
+      // only keep weekend events - this might be an option later on...
       .then(events => events.filter(item => moment(item.startTime).isAfter(moment().startOf('day'))))
       .then(events => {
         this.setState({events})

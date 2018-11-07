@@ -31,11 +31,9 @@ export class Event extends React.Component {
     headerTintColor: 'white',
     navBarBlur: true,
     drawUnderNavBar: true,
-    navBarTranslucent: true,
     headerStyle: {
       backgroundColor: '#000',
-      borderBottomColor: 'black',
-      borderBottomWidth: 0,
+      borderBottomColor: 'black'
     }
   }
 
