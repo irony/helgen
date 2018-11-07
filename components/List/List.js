@@ -18,7 +18,9 @@ export class List extends React.Component {
   extractItemKey = (item) => `${item.id}`
 
   onItemPressed = (event) => {
+    console.log('eventPressed', event)
     this.props.navigation.navigate('Event', { event })
+    this.props.onItemPressed(event)
   }
 
   renderItem = ({ item }) => (
@@ -34,6 +36,7 @@ export class List extends React.Component {
         <View rkCardFooter style={styles.footer}>
             <RkText style={styles.location} rkType='secondary3 inverseColor'>{`${item.location.name}`}</RkText>
             <RkText style={styles.type} rkType='secondary3 inverseColor'>{`${item.mainCategory}`}</RkText>
+            <RkText style={styles.type} rkType='secondary3 inverseColor'>{`${item.match}`}</RkText>
             
         </View>
       </View>
